@@ -38,9 +38,10 @@ public class AddressController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_USER')")
     public void updateAddress(@PathVariable Long addressId,
-        @RequestBody @Valid UpdateAddress updateAddressDto) {
+        @RequestBody @Valid UpdateAddress updateAddressDto,
+        @AuthenticationPrincipal CommonDetailsImpl commonDetails) {
 
-        addressService.updateAddress(addressId, updateAddressDto);
+        addressService.updateAddress(addressId, commonDetails.getId(), updateAddressDto);
     }
 
     @DeleteMapping("/{addressId}")

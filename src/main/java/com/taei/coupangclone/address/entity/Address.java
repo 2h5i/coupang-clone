@@ -33,15 +33,24 @@ public class Address {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(nullable = false)
+    private boolean defaultAddress;
+
     @Builder
-    public Address(String userAddress, String zipcode, User user) {
+    public Address(String userAddress, String zipcode, User user, boolean defaultAddress) {
         this.userAddress = userAddress;
         this.zipcode = zipcode;
         this.user = user;
+        this.defaultAddress = defaultAddress;
     }
 
-    public void updateAddressInfo(String userAddress, String zipcode) {
+    public void updateDefaultAddress(boolean defaultAddress) {
+        this.defaultAddress = defaultAddress;
+    }
+
+    public void updateAddressInfo(String userAddress, String zipcode, boolean defaultAddress) {
         this.userAddress = userAddress;
         this.zipcode = zipcode;
+        this.defaultAddress = defaultAddress;
     }
 }

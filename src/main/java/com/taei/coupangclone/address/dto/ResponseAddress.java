@@ -11,11 +11,13 @@ public class ResponseAddress {
     private Long id;
     private String userAddress;
     private String zipcode;
+    private boolean defaultAddress;
 
     private ResponseAddress(Address address) {
         this.id = address.getId();
         this.userAddress = address.getUserAddress();
         this.zipcode = address.getZipcode();
+        this.defaultAddress = address.isDefaultAddress();
     }
 
     public static ResponseAddress of(Address address) {

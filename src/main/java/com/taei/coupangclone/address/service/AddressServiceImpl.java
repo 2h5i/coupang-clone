@@ -6,6 +6,7 @@ import com.taei.coupangclone.address.entity.Address;
 import com.taei.coupangclone.address.repository.AddressRepository;
 import com.taei.coupangclone.user.entity.User;
 import com.taei.coupangclone.user.repository.UserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +25,20 @@ public class AddressServiceImpl implements AddressService {
             () -> new IllegalArgumentException("해당하는 회원이 없습니다.")
         );
 
+        if (createAddressDto.isDefaultAddress()) {
+            Optional<Address> existAddress = addressRepository.findByUserIdAndDefaultAddress(
+                userId, true);
+            existAddress.ifPresent(address -> {
+                address.updateDefaultAddress(false);
+                addressRepository.save(address);
+            });
+        }
+
         Address address = Address.builder()
             .userAddress(createAddressDto.getUserAddress())
             .zipcode(createAddressDto.getZipcode())
             .user(user)
+            .defaultAddress(createAddressDto.isDefaultAddress())
             .build();
 
         addressRepository.save(address);
@@ -35,12 +46,22 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     @Transactional
-    public void updateAddress(Long addressId, UpdateAddress updateAddressDto) {
+    public void updateAddress(Long addressId, Long userId, UpdateAddress updateAddressDto) {
         Address address = addressRepository.findById(addressId).orElseThrow(
             () -> new IllegalArgumentException("해당하는 주소지가 없습니다.")
         );
 
-        address.updateAddressInfo(updateAddressDto.getUserAddress(), updateAddressDto.getZipcode());
+        if (updateAddressDto.isDefaultAddress()) {
+            Optional<Address> existAddress = addressRepository.findByUserIdAndDefaultAddress(
+                userId, true);
+            existAddress.ifPresent(addr -> {
+                addr.updateDefaultAddress(false);
+                addressRepository.save(addr);
+            });
+        }
+
+        address.updateAddressInfo(updateAddressDto.getUserAddress(), updateAddressDto.getZipcode(),
+            updateAddressDto.isDefaultAddress());
 
         addressRepository.save(address);
     }

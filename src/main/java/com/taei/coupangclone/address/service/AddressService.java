@@ -7,7 +7,7 @@ public interface AddressService {
 
     void createAddress(CreateAddress createAddressDto, Long userId);
 
-    void updateAddress(Long addressId, UpdateAddress updateAddressDto);
+    void updateAddress(Long addressId, Long userId, UpdateAddress updateAddressDto);
 
     void deleteAddress(Long addressId);
 }
