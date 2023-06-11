@@ -62,4 +62,20 @@ public class Product extends BaseEntity {
         this.price = price;
         this.stock = stock;
     }
+
+    public void addStock(Long quantity) {
+        this.stock += quantity;
+    }
+
+    public void removeStock(Long quantity) {
+        Long restStock = this.stock - quantity;
+        if (restStock < 0) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        this.stock = restStock;
+    }
+
+    public boolean isSoldOut() {
+        return stock == 0;
+    }
 }
