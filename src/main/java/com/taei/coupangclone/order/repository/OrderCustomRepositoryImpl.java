@@ -12,7 +12,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.taei.coupangclone.order.dto.ResponseUserOrder;
+import com.taei.coupangclone.order.dto.ResponseUserOrders;
 import com.taei.coupangclone.order.entity.Order;
 import com.taei.coupangclone.orderitem.dto.ResponseUserOrderItem;
 import java.util.List;
@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class OrderCustomRepositoryImpl extends QuerydslRepositorySupport implements
@@ -51,15 +52,16 @@ public class OrderCustomRepositoryImpl extends QuerydslRepositorySupport impleme
     }
 
     @Override
-    public Page<ResponseUserOrder> selectUserOrder(Long userId, Pageable pageable) {
-        List<ResponseUserOrder> userOrders = jpaQueryFactory.from(order)
+    @Transactional
+    public Page<ResponseUserOrders> selectUserOrders(Long userId, Pageable pageable) {
+        List<ResponseUserOrders> userOrders = jpaQueryFactory.from(order)
             .innerJoin(orderItem)
             .on(order.id.eq(orderItem.order.id))
             .where(searchByUserId(userId))
             .transform(
                 groupBy(order.id).list(
                     Projections.fields(
-                        ResponseUserOrder.class,
+                        ResponseUserOrders.class,
                         order.id,
                         order.totalPrice,
                         list(

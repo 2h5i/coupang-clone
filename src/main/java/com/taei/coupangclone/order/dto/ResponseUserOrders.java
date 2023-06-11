@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ResponseUserOrder {
+public class ResponseUserOrders {
 
     private Long id;
     private Long totalPrice;
     private List<ResponseUserOrderItem> userOrderItems = new ArrayList<>();
 
-    public ResponseUserOrder(Long id, Long totalPrice, List<ResponseUserOrderItem> userOrderItems) {
+    public ResponseUserOrders(Long id, Long totalPrice,
+        List<ResponseUserOrderItem> userOrderItems) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.userOrderItems = userOrderItems;

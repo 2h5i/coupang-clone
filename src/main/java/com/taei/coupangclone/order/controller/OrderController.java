@@ -3,7 +3,7 @@ package com.taei.coupangclone.order.controller;
 import com.taei.coupangclone.common.core.PageWrapper;
 import com.taei.coupangclone.common.security.CommonDetailsImpl;
 import com.taei.coupangclone.order.dto.CreateOrder;
-import com.taei.coupangclone.order.dto.ResponseUserOrder;
+import com.taei.coupangclone.order.dto.ResponseUserOrders;
 import com.taei.coupangclone.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -37,10 +37,10 @@ public class OrderController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public PageWrapper<ResponseUserOrder> selectUserOrder(
+    public PageWrapper<ResponseUserOrders> selectUserOrders(
         @AuthenticationPrincipal CommonDetailsImpl commonDetails,
         @PageableDefault() Pageable pageable) {
 
-        return orderService.selectUserOrder(commonDetails.getId(), pageable);
+        return orderService.selectUserOrders(commonDetails.getId(), pageable);
     }
 }

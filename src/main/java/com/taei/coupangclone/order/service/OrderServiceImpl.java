@@ -5,7 +5,7 @@ import com.taei.coupangclone.delivery.entity.Delivery;
 import com.taei.coupangclone.delivery.entity.DeliveryStatus;
 import com.taei.coupangclone.delivery.repository.DeliveryRepository;
 import com.taei.coupangclone.order.dto.CreateOrder;
-import com.taei.coupangclone.order.dto.ResponseUserOrder;
+import com.taei.coupangclone.order.dto.ResponseUserOrders;
 import com.taei.coupangclone.order.entity.Order;
 import com.taei.coupangclone.order.repository.OrderRepository;
 import com.taei.coupangclone.orderitem.dto.CreateOrderItem;
@@ -80,8 +80,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PageWrapper<ResponseUserOrder> selectUserOrder(Long userId, Pageable pageable) {
+    public PageWrapper<ResponseUserOrders> selectUserOrders(Long userId, Pageable pageable) {
 
-        return PageWrapper.of(orderRepository.selectUserOrder(userId, pageable));
+        return PageWrapper.of(orderRepository.selectUserOrders(userId, pageable));
     }
 }
